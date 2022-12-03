@@ -9,9 +9,9 @@ enum RPS {
 impl std::cmp::PartialEq for RPS {
     fn eq(&self, other: &Self) -> bool {
         match (self, other) {
-            (Self::Rock, Self::Rock) => true,
-            (Self::Paper, Self::Paper) => true,
-            (Self::Scissors, Self::Scissors) => true,
+            (Self::Rock, Self::Rock)
+            | (Self::Paper, Self::Paper)
+            | (Self::Scissors, Self::Scissors) => true,
             _ => false,
         }
     }
@@ -81,9 +81,9 @@ pub fn part1() -> u32 {
             };
 
             let your = match &you.partial_cmp(me).unwrap() {
-                Ordering::Greater => 6 + your_select,
-                Ordering::Equal => 3 + your_select,
-                Ordering::Less => 0 + your_select,
+                Ordering::Greater => your_select + 6,
+                Ordering::Equal => your_select + 3,
+                Ordering::Less => your_select,
             };
 
             let my_select = match me {
@@ -93,9 +93,9 @@ pub fn part1() -> u32 {
             };
 
             let my = match me.partial_cmp(&you).unwrap() {
-                Ordering::Greater => 6 + my_select,
-                Ordering::Equal => 3 + my_select,
-                Ordering::Less => 0 + my_select,
+                Ordering::Greater => my_select + 6,
+                Ordering::Equal => my_select + 3,
+                Ordering::Less => my_select,
             };
 
             (your_acc + your, my_acc + my)
@@ -112,7 +112,7 @@ pub fn part1() -> u32 {
 
 pub fn part2() -> u32 {
     let input = std::fs::read_to_string("./input/day2.txt").unwrap();
-    
+
     input.lines().fold(0, |acc, line| {
         let mut vs = line.split_whitespace();
 
@@ -140,9 +140,9 @@ pub fn part2() -> u32 {
         };
 
         let my = match me.partial_cmp(&you).unwrap() {
-            Ordering::Greater => 6 + my_select,
-            Ordering::Equal => 3 + my_select,
-            Ordering::Less => 0 + my_select,
+            Ordering::Greater => my_select + 6,
+            Ordering::Equal => my_select + 3,
+            Ordering::Less => my_select,
         };
 
         acc + my
